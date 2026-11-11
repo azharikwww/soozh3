@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position-ды талдау - СОӨЖ №3</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #f4f4f9; 
+            color: #333; 
+            padding: 20px; 
+        }
+        h1, h2 { color: #2c3e50; margin-bottom: 15px; text-align: center; }
+        .section { 
+            background: #fff; 
+            padding: 20px; 
+            margin-bottom: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            border-left: 5px solid #3498db;
+        }
+        .explanation { font-size: 14px; color: #555; margin-bottom: 15px; }
+
+        .demo-static {
+            position: static; 
+            background: #e0e0e0; padding: 10px; margin-bottom: 5px;
+            border: 1px solid #ccc;
+        }
+        .demo-static-moved {
+            position: static; 
+            top: 20px; left: 20px;
+            background: #ffcccc; padding: 10px; border: 1px solid #cc0000;
+        }
+
+        .demo-relative {
+            position: relative; 
+            top: 15px; left: 30px;
+            background: #d4edda; padding: 10px; border: 1px solid #28a745;
+        }
+
+        .parent-relative { 
+            position: relative; 
+            background: #e2e3e5; padding: 30px; margin-top: 10px;
+            border: 2px dashed #6c757d; min-height: 100px;
+        }
+        .parent-static {
+            position: static; 
+            background: #e2e3e5; padding: 30px; margin-top: 10px;
+            border: 2px dashed #6c757d; min-height: 100px;
+        }
+        .child-absolute {
+            position: absolute; 
+            top: 0; right: 0; 
+            background: #f8d7da; padding: 10px; border: 1px solid #dc3545;
+        }
+
+        .demo-fixed {
+            position: fixed; 
+            bottom: 20px; right: 20px; 
+            background: #007bff; color: #fff; 
+            padding: 15px 25px; border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,123,255,0.4);
+            z-index: 1000; 
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .sticky-container {
+            height: 300px; 
+            overflow-y: auto; 
+            background: #fdfdfd; 
+            border: 1px solid #ddd; 
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .demo-sticky {
+            position: sticky; 
+            top: 0; 
+            background: #ffc107; 
+            padding: 10px; 
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* 768px-ден кіші экрандар үшін */
+        @media (max-width: 767px) {
+            body { padding: 10px; }
+            h1 { font-size: 20px; }
+            h2 { font-size: 16px; }
+            .section { padding: 15px; }
+            
+            .child-absolute {
+                position: relative; 
+                display: block;
+                top: auto; right: auto;
+                margin-top: 15px;
+                text-align: center;
+            }
+            
+            .demo-fixed {
+                padding: 10px 15px;
+                font-size: 14px;
+                bottom: 10px; right: 10px;
+            }
+        }
+
+        /* 1200px-ден үлкен экрандар үшін (үлкен мониторлар) */
+        @media (min-width: 1200px) {
+            body { max-width: 1100px; margin: 0 auto; }
+            .section { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CSS Position Мәндерін Талдау</h1>
+
+    <div class="section">
+        <h2>1. static (Әдепкі мән)</h2>
+        <p class="explanation">Бұл ең негізгі мән. Элемент қалыпты құжат ағынында тұрады. <code>top, left, right, bottom, z-index</code> сияқты қасиеттер <b>ешқандай әсер етпейді</b>.</p>
+        <div class="demo-static">Мен қалыпты жерімде тұрмын (static).</div>
+        <div class="demo-static-moved">Менде top:20px, left:20px бар, бірақ орнымнан жылжымадым! Себебі static.</div>
+    </div>
+
+    <div class="section">
+        <h2>2. relative (Салыстырмалы)</h2>
+        <p class="explanation">Элемент өзінің <b>қалыпты орнынан</b> жылжиды. Бірақ оның артында қалған бос орын сақталып қалады (басқа элементтер оның орнын баспайды).</p>
+        <div class="demo-relative">Мен өз орнымнан 15px төмен және 30px оңға жылжыдым (relative).</div>
+        <div style="background:#eee; padding:10px; margin-top:5px;">Мен relative элементтің астында тұрмын.</div>
+    </div>
+
+    <div class="section">
+        <h2>3. absolute (Абсолютті)</h2>
+        <p class="explanation">Элемент құжат ағынынан шығып кетеді. Ол өзіне ең жақын <b>position: relative/absolute/fixed/sticky</b> берілген ата-элементке қатысты орналасады. Егер ата-элементте position болмаса, ол &lt;body&gt; тегіне қатысты орналасады.</p>
+        
+        <h3>А) Ата-элементте position: relative бар</h3>
+        <div class="parent-relative">
+            Мен ата-элементпін (relative).
+            <div class="child-absolute">Мен absolute-пын. Оң жақ жоғарыға жабыстым.</div>
+        </div>
+
+        <h3 style="margin-top:20px;">Ә) Ата-элементте position жоқ (static)</h3>
+        <div class="parent-static">
+            Мен ата-элементпін (static). Менің ішімдегі absolute маған бағынбайды, экранның ең жоғары жағына кетеді!
+            <div class="child-absolute" style="top: -30px; right: 0;">Мен absolute-пын. Ата-элементте position жоқ, сондықтан мен жоғарыға ұшып кеттім!</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. fixed (Бекітілген)</h2>
+        <p class="explanation">Элемент экранға (браузер терезесіне) бекітіледі. Бетті скролл жасағанда, ол орнында тұра береді. Оң жақ төмендегі көк батырманы байқаңыз.</p>
+        <p>Төмен қарай скролл жасап көріңіз...</p>
+        <div style="height: 200px; background: linear-gradient(#fff, #ddd); border:1px solid #eee; margin-top:10px; padding:10px; text-align:center; line-height:200px; color:#999;">Скролл аймағы</div>
+    </div>
+
+    <div class="section">
+        <h2>5. sticky (Жабысқақ)</h2>
+        <p class="explanation">Элемент скролл кезінде белгілі бір шекке жеткенше қалыпты тұрады, ал шекке жеткенде <b>fixed</b> сияқты жабысып қалады. Төмендегі контейнерді ішінен скролл жасаңыз.</p>
+        
+        <div class="sticky-container">
+            <div class="demo-sticky">Мен sticky-мін! Контейнердің жоғарғы жағына жабысып тұрмын.</div>
+            <p>1-жол мәтін...</p><p>2-жол мәтін...</p><p>3-жол мәтін...</p><p>4-жол мәтін...</p>
+            <p>5-жол мәтін...</p><p>6-жол мәтін...</p><p>7-жол мәтін...</p><p>8-жол мәтін...</p>
+            <p>9-жол мәтін...</p><p>10-жол мәтін...</p><p>11-жол мәтін...</p><p>12-жол мәтін...</p>
+        </div>
+    </div>
+
+    <div class="demo-fixed" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        ↑ Жоғары қарай (Fixed)
+    </div>
+
+</body>
+</html>
